@@ -21,10 +21,12 @@
 ## Other useful things
 
 - sbt
-  - sbt-idea plugin
 - giter8
 
 # Making a project
 
 - `g8 leedm777/lift-blank`
   - Templates are simple easy to make your own
+  - `vi project/plugins.sbt` - uncomment sbt-idea plugin
+- `sbt`
+  - `sbt> gen-idea`
