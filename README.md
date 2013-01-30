@@ -29,4 +29,4 @@
   - Templates are simple easy to make your own
   - `vi project/plugins.sbt` - uncomment sbt-idea plugin
 - `sbt`
-  - `sbt> gen-idea`
+  - `sbt> gen-idea no-sbt-build-module`
