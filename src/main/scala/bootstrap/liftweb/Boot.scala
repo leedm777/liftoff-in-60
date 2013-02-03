@@ -1,15 +1,15 @@
 package bootstrap.liftweb
 
-import net.liftweb._
-import util._
-import Helpers._
-
-import common._
-import http._
-import sitemap._
-import Loc._
+import net.liftweb.db.{DefaultConnectionIdentifier, DB, StandardDBVendor}
+import net.liftweb.mapper.Schemifier
+import net.liftweb.util._
+import net.liftweb.common._
+import net.liftweb.http._
+import net.liftweb.sitemap._
+import net.liftweb.sitemap.Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
+import leedm777.liftoff.model._
 
 
 /**
@@ -21,9 +21,20 @@ class Boot {
     // where to search snippet
     LiftRules.addToPackages("leedm777.liftoff")
 
+    // setup mapper
+    for (driverName <- Props.get("db.driver"); url <- Props.get("db.url")) {
+      val user = Props.get("db.user")
+      val password = Props.get("db.password")
+      val vendor = new StandardDBVendor(driverName, url, user, password)
+      DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+      Schemifier.schemify(true, Schemifier.infoF _, User)
+    }
+
     // Build SiteMap
     val entries = List(
       Menu.i("Home") / "index", // the simple way to declare a menu
+      Menu.i("Login") / "login",
+      Menu.i("Create Account") / "new-account",
       Menu.i("Chat") / "chat",
 
       // more complex because this menu allows anything in the
@@ -33,7 +44,7 @@ class Boot {
 
     // set the sitemap.  Note if you don't want access control for
     // each page, just comment this line out.
-    LiftRules.setSiteMap(SiteMap(entries:_*))
+    LiftRules.setSiteMap(SiteMap(entries: _*))
 
     //Show the spinny image when an Ajax call starts
     LiftRules.ajaxStart =
@@ -50,10 +61,9 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
 
-    //Init the jQuery module, see http://liftweb.net/jquery for more information.
+    // Init the jQuery module, see http://liftweb.net/jquery for more information.
     LiftRules.jsArtifacts = JQueryArtifacts
-    JQueryModule.InitParam.JQuery=JQueryModule.JQuery172
+    JQueryModule.InitParam.JQuery = JQueryModule.JQuery172
     JQueryModule.init()
-
   }
 }

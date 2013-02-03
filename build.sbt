@@ -18,8 +18,10 @@ libraryDependencies ++= {
   val liftVersion = "2.5-M4"
   Seq(
     "net.liftweb"       %% "lift-webkit"        % liftVersion        % "compile",
+    "net.liftweb"       %% "lift-mapper"        % liftVersion        % "compile",
     "net.liftmodules"   %% "lift-jquery-module" % (liftVersion + "-2.1"),
     "org.eclipse.jetty" % "jetty-webapp"        % "9.0.0.M5"         % "container; test",
+    "com.h2database"    % "h2"                  % "1.3.170"          % "runtime",
     "ch.qos.logback"    % "logback-classic"     % "1.0.9",
     "org.specs2"        %% "specs2"             % "1.11"             % "test"
   )
