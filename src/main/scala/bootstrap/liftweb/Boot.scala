@@ -16,18 +16,22 @@ import leedm777.liftoff.model._
  * A class that's instantiated early and run.  It allows the application
  * to modify lift's environment
  */
-class Boot {
+class Boot extends Loggable {
   def boot {
     // where to search snippet
     LiftRules.addToPackages("leedm777.liftoff")
 
     // setup mapper
-    for (driverName <- Props.get("db.driver"); url <- Props.get("db.url")) {
+    (for (driverName <- Props.get("db.driver"); url <- Props.get("db.url")) yield {
       val user = Props.get("db.user")
       val password = Props.get("db.password")
       val vendor = new StandardDBVendor(driverName, url, user, password)
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
       Schemifier.schemify(true, Schemifier.infoF _, User)
+      logger.info("Database configured")
+    }) or {
+      logger.error("Missing database configuration")
+      Empty
     }
 
     // Build SiteMap
