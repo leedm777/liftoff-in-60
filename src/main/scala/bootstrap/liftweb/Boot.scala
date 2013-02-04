@@ -34,12 +34,21 @@ class Boot extends Loggable {
       Empty
     }
 
+    val LoggedIn = If(
+      () => User.isLoggedIn,
+      () => {
+        S.error("Login required")
+        RedirectResponse("/login")
+      }
+    )
+
+
     // Build SiteMap
     val entries = List(
       Menu.i("Home") / "index", // the simple way to declare a menu
-      Menu.i("Login") / "login",
-      Menu.i("Create Account") / "new-account",
-      Menu.i("Chat") / "chat",
+      Menu.i("Login") / "login" >> Hidden,
+      Menu.i("Create Account") / "new-account" >> Hidden,
+      Menu.i("Chat") / "chat" >> LoggedIn,
 
       // more complex because this menu allows anything in the
       // /static path to be visible
@@ -62,8 +71,10 @@ class Boot extends Loggable {
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
 
     // Use HTML5 for rendering
-    LiftRules.htmlProperties.default.set((r: Req) =>
-      new Html5Properties(r.userAgent))
+    LiftRules.htmlProperties.default.set((r: Req) =>      new Html5Properties(r.userAgent))
+
+    // Link our user database in with Lift
+    LiftRules.loggedInTest = Full(() => User.isLoggedIn)
 
     // Init the jQuery module, see http://liftweb.net/jquery for more information.
     LiftRules.jsArtifacts = JQueryArtifacts

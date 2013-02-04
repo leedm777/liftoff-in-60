@@ -14,6 +14,7 @@ class User extends LongKeyedMapper[User] with IdPK {
 }
 
 object User extends User with MetaMapper[User] with LongKeyedMetaMapper[User] {
+  def isLoggedIn: Boolean = currentUser.isDefined
 
   private object _currentUser extends SessionVar[Box[String]](Empty)
 
