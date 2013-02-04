@@ -29,5 +29,5 @@ class Chat extends CometActor with CometListener {
       reRender()
   }
 
-  def render = ClearClearable & ("li *" #> messages)
+  def render = (".message *" #> messages)
 }

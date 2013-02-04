@@ -1,2 +1,3 @@
 console.devmode.log
 target
+*.db
