@@ -11,7 +11,6 @@ import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
 import leedm777.liftoff.model._
 
-
 /**
  * A class that's instantiated early and run.  It allows the application
  * to modify lift's environment
@@ -34,6 +33,7 @@ class Boot extends Loggable {
       Empty
     }
 
+    // Loc which only shows a menu if logged in
     val LoggedIn = If(
       () => User.isLoggedIn,
       () => {
@@ -42,18 +42,12 @@ class Boot extends Loggable {
       }
     )
 
-
     // Build SiteMap
     val entries = List(
       Menu.i("Home") / "index", // the simple way to declare a menu
       Menu.i("Login") / "login" >> Hidden,
       Menu.i("Create Account") / "new-account" >> Hidden,
-      Menu.i("Chat") / "chat" >> LoggedIn,
-
-      // more complex because this menu allows anything in the
-      // /static path to be visible
-      Menu(Loc("Static", Link(List("static"), true, "/static/index"),
-        "Static Content")))
+      Menu.i("Chat") / "chat" >> LoggedIn)
 
     // set the sitemap.  Note if you don't want access control for
     // each page, just comment this line out.
