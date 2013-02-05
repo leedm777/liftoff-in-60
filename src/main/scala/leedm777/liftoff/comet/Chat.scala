@@ -15,7 +15,7 @@ object ChatServer extends LiftActor with ListenerManager with Loggable {
 
   override protected def lowPriority = {
     case line: Line =>
-      lines :+= line
+      lines = (lines :+ line).takeRight(20)
       updateListeners()
   }
 }
