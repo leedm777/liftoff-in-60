@@ -6,10 +6,15 @@
         <option name="LINE_SEPARATOR" value="&#10;" />
         <ScalaCodeStyleSettings>
           <option name="PLACE_CLOSURE_PARAMETERS_ON_NEW_LINE" value="false" />
+          <option name="KEEP_ONE_LINE_LAMBDAS_IN_ARG_LIST" value="true" />
         </ScalaCodeStyleSettings>
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
+        <codeStyleSettings language="Scala">
+          <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+          <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
+        </codeStyleSettings>
       </value>
     </option>
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
