@@ -7,7 +7,7 @@ import net.liftweb.common._
 class User extends LongKeyedMapper[User] with IdPK {
   def getSingleton = User
 
-  object email extends MappedEmail(this, 80)
+  object email extends MappedEmail(this, maxLen = 80)
 
   object password extends MappedPassword(this)
 
